@@ -19,6 +19,7 @@ EXPOSE 8080
 ENV FLASK_APP=app.py
 ENV FLASK_ENV=production
 ENV MODEL_PATH=best_model.keras
+ENV TF_USE_LEGACY_KERAS=1
 
 # Run gunicorn with dynamic PORT
 CMD sh -c "gunicorn --bind 0.0.0.0:${PORT:-5000} --workers 1 --timeout 120 app:app"
