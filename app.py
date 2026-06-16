@@ -113,8 +113,8 @@ def predict():
         # Resize to 224x224
         img = img.resize((IMG_WIDTH, IMG_HEIGHT))
         
-        # Convert to numpy array and normalize to [0, 1] as expected by most Keras models
-        img_array = np.array(img, dtype=np.float32) / 255.0
+        # Convert to numpy array (DO NOT scale by /255.0 because the model has a Rescaling layer!)
+        img_array = np.array(img, dtype=np.float32)
         
         # Expand dimensions to (1, 224, 224, 3)
         img_batch = np.expand_dims(img_array, axis=0)
