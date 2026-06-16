@@ -7,11 +7,13 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application files
-COPY app.py .
-COPY best_model.keras .
+COPY . .
 
-# Expose port
-EXPOSE 5000
+# Download the real model from Git LFS directly since Railway doesn't pull LFS files automatically
+RUN python -c "import urllib.request; urllib.request.urlretrieve('https://media.githubusercontent.com/media/mossabnm/ai-flask/master/best_model.keras', 'best_model.keras')"
+
+# Set port
+EXPOSE 8080
 
 # Set environment variables
 ENV FLASK_APP=app.py
