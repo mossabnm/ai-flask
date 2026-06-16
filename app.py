@@ -5,6 +5,14 @@ from PIL import Image
 from flask import Flask, request, jsonify
 import tensorflow as tf
 
+# --- MONKEY PATCH FOR KERAS 3 QUANTIZATION_CONFIG BUG ---
+original_dense_init = tf.keras.layers.Dense.__init__
+def patched_dense_init(self, *args, **kwargs):
+    kwargs.pop("quantization_config", None)
+    original_dense_init(self, *args, **kwargs)
+tf.keras.layers.Dense.__init__ = patched_dense_init
+# --------------------------------------------------------
+
 # Initialize Flask App
 app = Flask(__name__)
 
